@@ -74,6 +74,9 @@
                             <constraint firstItem="ad9-Bq-jL4" firstAttribute="leading" secondItem="TID-bk-kM2" secondAttribute="leadingMargin" id="vKl-a8-JUY"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="showedPhoto" destination="ad9-Bq-jL4" id="dge-aI-Xpj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1TY-YO-vbg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

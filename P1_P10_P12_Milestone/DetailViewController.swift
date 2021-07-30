@@ -8,14 +8,15 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    var showedPhoto: UIImageView!
+    @IBOutlet var showedPhoto: UIImageView!
     var selectedPhoto: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rename", style: .done, target: self, action: #selector(renamePhoto))
-        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: self, action: #selector(backButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Rename", style: .done, target: self, action: #selector(renamePhoto))
+    
         if let imageToShow = selectedPhoto {
             showedPhoto.image = UIImage(named: imageToShow)
         }
@@ -24,5 +25,9 @@ class DetailViewController: UIViewController {
     
     @objc func renamePhoto() {
         }
+    
+    @objc func backButton() {
+        
+    }
 
 }

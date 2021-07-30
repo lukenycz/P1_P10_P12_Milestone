@@ -9,7 +9,11 @@ import UIKit
 
 class ViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    var photo = [Photos]()
+    var photo = [Photos]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     
     override func viewDidLoad() {
@@ -30,9 +34,12 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate, UI
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
-            vc.selectedPhoto = photo[indexPath.row] as? String
+            let onePhoto = photo[indexPath.row]
+            vc.selectedPhoto = onePhoto.image
             navigationController?.pushViewController(vc, animated: true)
+            photo[indexPath.row] = onePhoto
         }
         
     }
@@ -40,7 +47,6 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate, UI
     @objc func choosePicture() {
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
-        
         picker.allowsEditing = true
         picker.delegate = self
         present(picker, animated: true)
@@ -57,7 +63,7 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate, UI
         }
         
         let onePhoto = Photos(name: "Unknown", image: imageName)
-        photo.append(onePhoto as? String)
+        photo.append(onePhoto)
         tableView.reloadData()
         dismiss(animated: true)
         print(photo)
