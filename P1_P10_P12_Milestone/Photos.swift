@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Photos {
+class Photos: Codable {
     var name:String
     var image:String
     
