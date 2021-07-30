@@ -16,10 +16,24 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate, UI
     }
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(choosePicture))    }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(choosePicture))
+        
+        let defaults = UserDefaults.standard
+        
+        if let savedPhoto = defaults.object(forKey: "photo") as? Data {
+            let jsonDecoder = JSONDecoder()
+            
+            do {
+                photo = try jsonDecoder.decode([Photos].self, from: savedPhoto)
+            } catch {
+                print("Fail to save people")
+            }
+        }
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photo.count
@@ -96,6 +110,7 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate, UI
         
         let onePhoto = Photos(name: "Unknown", image: imageName)
         photo.append(onePhoto)
+        save()
         tableView.reloadData()
         dismiss(animated: true)
         print(onePhoto.image)
@@ -104,6 +119,18 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate, UI
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
+    }
+    
+    
+    func save() {
+        let jsonEncoder = JSONEncoder()
+        
+        if let saveData = try? jsonEncoder.encode(photo) {
+            let defaults = UserDefaults.standard
+                defaults.set(saveData, forKey: "photo")
+        } else {
+            print("Fail to save photo")
+        }
     }
 }
 
